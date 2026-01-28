@@ -29,8 +29,10 @@ pub struct AcoustID {
 impl AcoustID {
     const LOOKUP_URL: &'static str = "https://api.acoustid.org/v2/lookup";
 
-    pub fn new(api_key: impl AsRef<str>) -> Self {
-        let client = reqwest::Client::new();
+    pub fn new(api_key: impl AsRef<str>) -> crate::Result<Self> {
+        let client = reqwest::Client::builder()
+            .user_agent("music-organizer/0.1.0")
+            .build()?;
         let limiter = leaky_bucket::RateLimiter::builder()
             .max(3)
             .initial(3)
@@ -38,18 +40,18 @@ impl AcoustID {
             .interval(Duration::from_millis(350))
             .build();
 
-        Self {
+        Ok(Self {
             api_key: api_key.as_ref().to_string(),
             client,
             limiter: Arc::new(limiter),
-        }
+        })
     }
 
     /// Tries to find a musicbrainz recording id for the given fingerprint.
     pub async fn lookup(
         &self,
         fingerprint: impl AsRef<str>,
-        duration: f32,
+        duration: f64,
     ) -> crate::Result<Option<String>> {
         self.limiter.acquire(1).await;
 

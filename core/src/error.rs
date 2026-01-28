@@ -6,8 +6,12 @@ pub enum Error {
     AudioProcessor(#[from] rusty_chromaprint::ResetError),
     #[error("Database error: {0}")]
     Database(#[from] redb::DatabaseError),
+    #[error("Invalid file path")]
+    InvalidFilePath,
     #[error("IO error: {0}")]
     IO(#[from] std::io::Error),
+    #[error("MusicBrainz error: {0}")]
+    MusicBrainz(#[from] musicbrainz_rs::Error),
     #[error("No track found")]
     NoTrackFound,
     #[error("Reqwest error: {0}")]

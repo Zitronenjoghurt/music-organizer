@@ -1,7 +1,5 @@
 use crate::app::App;
 use crate::directories::eframe_save_file_path;
-use music_organizer_core::audio::identify::fingerprint::song_file_fingerprint;
-use std::path::PathBuf;
 
 mod app;
 mod directories;
@@ -9,9 +7,6 @@ mod runtime;
 mod widgets;
 
 fn main() {
-    let (fp, duration) = song_file_fingerprint(PathBuf::from("./music/aishite.opus")).unwrap();
-    println!("Fingerprint: {:?}, duration: {:?}", fp, duration);
-
     let native_options = eframe::NativeOptions {
         renderer: eframe::Renderer::Wgpu,
         viewport: egui::ViewportBuilder::default()

@@ -1,5 +1,7 @@
-use crate::types::song_info::SongInfo;
+use crate::database::info::SongInfo;
 use std::collections::HashMap;
+
+pub mod local;
 
 #[async_trait::async_trait]
 pub trait SongSource {

@@ -12,13 +12,15 @@ pub struct Runtime {
 
 impl Default for Runtime {
     fn default() -> Self {
+        let tokio = tokio::runtime::Builder::new_multi_thread()
+            .worker_threads(4)
+            .enable_all()
+            .build()
+            .unwrap();
+
         Self {
-            tokio: tokio::runtime::Builder::new_multi_thread()
-                .worker_threads(4)
-                .enable_all()
-                .build()
-                .unwrap(),
-            library: library::Library::default(),
+            library: library::Library::new(tokio.handle()),
+            tokio,
             file_picker: file_picker::FilePicker::default(),
         }
     }

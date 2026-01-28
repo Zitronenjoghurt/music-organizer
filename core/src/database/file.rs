@@ -1,5 +1,6 @@
 #[derive(Debug, bitcode::Encode, bitcode::Decode)]
-pub struct SongInfo {
+pub struct SongFile {
     pub name: String,
-    pub artist: String,
+    pub path: String,
+    pub hash: u64,
 }
