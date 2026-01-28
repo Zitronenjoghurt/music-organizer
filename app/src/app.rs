@@ -91,8 +91,8 @@ impl App {
 
     fn handle_file_picked(&mut self, path: PathBuf, target: FilePickTarget) -> anyhow::Result<()> {
         match target {
-            FilePickTarget::CreateLibrary => self.rt.library.attach(path)?,
-            FilePickTarget::OpenLibrary => self.rt.library.attach(path)?,
+            FilePickTarget::CreateLibrary => self.rt.library.attach_local(path)?,
+            FilePickTarget::OpenLibrary => self.rt.library.attach_local(path)?,
         }
         Ok(())
     }

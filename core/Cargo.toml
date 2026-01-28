@@ -4,8 +4,16 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-musicbrainz_rs = "0.12.0"
+async-trait = { workspace = true }
+base64 = "0.22.1"
 bitcode = "0.6.9"
+leaky-bucket = "1.1.2"
+musicbrainz_rs = "0.12.0"
 redb = "3.1.0"
+reqwest = { version = "0.13.1", features = ["json", "query"] }
+rusty-chromaprint = "0.3.0"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
 symphonia = { version = "0.5.5", features = ["mp3", "flac", "wav", "aiff", "vorbis", "aac", "isomp4"] }
+symphonia-adapter-libopus = { version = "0.2.5", features = ["bundled"] }
 thiserror = "2.0.18"

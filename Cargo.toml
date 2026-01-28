@@ -4,3 +4,4 @@ members = ["app", "core"]
 
 [workspace.dependencies]
 music-organizer-core = { path = "core" }
+async-trait = "0.1.89"
