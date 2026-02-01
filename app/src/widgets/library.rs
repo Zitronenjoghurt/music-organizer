@@ -16,9 +16,16 @@ impl<'a> LibraryWidget<'a> {
 
 impl Widget for LibraryWidget<'_> {
     fn ui(self, ui: &mut Ui) -> Response {
-        let Some(song_infos) = self.rt.library.song_infos() else {
-            return ui
-                .horizontal_centered(|ui| {
+        ui.vertical(|ui| {
+            if let Some(song_infos) = self.rt.library.song_infos.get() {
+                ui.vertical(|ui| {
+                    for info in song_infos.values() {
+                        ui.label(info.title.as_deref().unwrap_or("Unknown Title"));
+                    }
+                })
+                .response
+            } else {
+                ui.horizontal_centered(|ui| {
                     if ui.button("Open Library").clicked() {
                         self.rt.file_picker.open_single(FilePickTarget::OpenLibrary);
                     }
@@ -29,9 +36,9 @@ impl Widget for LibraryWidget<'_> {
                             .open_save(FilePickTarget::CreateLibrary, "library.modb");
                     }
                 })
-                .response;
-        };
-
-        ui.label("Library")
+                .response
+            }
+        })
+        .inner
     }
 }

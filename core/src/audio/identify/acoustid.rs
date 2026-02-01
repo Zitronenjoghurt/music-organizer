@@ -3,6 +3,7 @@ use std::time::Duration;
 
 #[derive(Debug, serde::Deserialize)]
 struct AcoustIDResponse {
+    #[serde(default)]
     results: Vec<AcoustIDResult>,
 }
 

@@ -27,14 +27,17 @@ impl SongIdentifier {
 
         let (fp, duration) = fingerprint::song_file_fingerprint(path)?;
         let Some(musicbrainz_id) = self.acoustid.lookup(fp, duration).await? else {
-            return Ok(SongEntry { file, info: None });
+            return Ok(SongEntry {
+                file,
+                info: Default::default(),
+            });
         };
 
-        let info = Self::song_info(&musicbrainz_id).await?;
+        let info = Self::song_info(&musicbrainz_id).await?.unwrap_or_default();
         Ok(SongEntry { file, info })
     }
 
-    fn song_file(path: impl AsRef<Path>) -> crate::Result<SongFile> {
+    pub fn song_file(path: impl AsRef<Path>) -> crate::Result<SongFile> {
         let path = path.as_ref().canonicalize()?;
         let hash = hash_file(&path)?;
         let name = path
@@ -110,8 +113,8 @@ impl SongIdentifier {
         };
 
         Ok(Some(SongInfo {
-            musicbrainz_id: recording.id.clone(),
-            title: recording.title.clone(),
+            musicbrainz_id: Some(recording.id.clone()),
+            title: Some(recording.title.clone()),
             aliases,
             artists,
             first_release: recording.first_release_date.map(|date| date.0),

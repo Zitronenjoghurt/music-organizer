@@ -29,5 +29,6 @@ impl Default for Runtime {
 impl Runtime {
     pub fn update(&mut self, ctx: &egui::Context, actions: &AppActions) {
         self.file_picker.update(ctx, actions);
+        self.library.update(actions);
     }
 }
